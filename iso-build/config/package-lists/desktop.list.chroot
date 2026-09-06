@@ -1,0 +1,22 @@
+# Core Live Components
+live-boot
+live-config
+live-config-systemd
+          
+# Desktop Environment
+task-kde-desktop
+          
+# Installer
+calamares-settings-debian
+          
+# Core Utilities
+network-manager
+sudo
+curl
+wget
+git
+btop
+neovim
+fastfetch
+kitty
+zsh
