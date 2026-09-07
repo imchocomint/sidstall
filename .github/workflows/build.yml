@@ -31,20 +31,20 @@ jobs:
         # Building an ISO requires significant disk space. 
         # This step removes unused large pre-installed tools on the GitHub runner.
         run: |
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
-          sudo apt-get clean
+          rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          apt-get clean
           df -h
           
       - name: Install build dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y live-build debootstrap squashfs-tools debian-archive-keyring
+          apt-get update
+          apt-get install -y live-build debootstrap squashfs-tools debian-archive-keyring
 
       - name: Build the ISO
         run: |
           cd iso-build
           # Requires root privileges to create the chroot and squashfs
-          sudo lb build
+          lb build
           
       - name: Upload ISO Artifact
         uses: actions/upload-artifact@v4
