@@ -52,13 +52,3 @@ jobs:
           name: sidstall-kde-iso
           path: iso-build/*.iso
           retention-days: 7
-          
-      - name: Generate Release
-        uses: softprops/action-gh-release@v3
-        with:
-          # Explicitly set the tag using the workflow_dispatch input
-          tag_name: ${{ github.event.inputs.tag }}
-          # Use a wildcard so it automatically matches whatever the ISO is named
-          files: iso-build/*.iso
-          body: |
-            Weekly GH Actions build
