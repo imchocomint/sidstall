@@ -6,6 +6,11 @@ name: Build ISO
 on:
   # Manual only
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag name for this release (e.g., v1.0.0 or nightly)'
+        required: true
+        default: 'nightly'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -14,11 +19,13 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     permissions:
-          contents: write
+      contents: write
+      
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+      
       - name: Free up disk space
         # Building an ISO requires significant disk space. 
         # This step removes unused large pre-installed tools on the GitHub runner.
@@ -26,24 +33,31 @@ jobs:
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
           sudo apt-get clean
           df -h
+          
       - name: Install build dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y live-build debootstrap squashfs-tools debian-archive-keyring
+
       - name: Build the ISO
         run: |
           cd iso-build
           # Requires root privileges to create the chroot and squashfs
           sudo lb build
+          
       - name: Upload ISO Artifact
         uses: actions/upload-artifact@v4
         with:
           name: sidstall-kde-iso
           path: iso-build/*.iso
           retention-days: 7
+          
       - name: Generate Release
         uses: softprops/action-gh-release@v3
         with:
-          files: sidstall-kde-iso.iso
+          # Explicitly set the tag using the workflow_dispatch input
+          tag_name: ${{ github.event.inputs.tag }}
+          # Use a wildcard so it automatically matches whatever the ISO is named
+          files: iso-build/*.iso
           body: |
             Weekly GH Actions build
