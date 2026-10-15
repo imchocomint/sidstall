@@ -1,7 +1,12 @@
 # sidstall
- Installable ISO for Debian sid a.k.a. stable rolling release
+Installable ISO for Debian sid a.k.a. stable rolling release
 
-## Download
+## Self-service guide (recommended)
+Fork the repo.
+
+Open Actions. Open the only workflow on the left side of the window. Click the big green button. Input a tag name (or leave it be), then click the big green button at the bottom of the screen. Wait 25 minutes and you have your install media (click on the Action run, then scroll down and it will give you a link to download the zip file that has the ISO).
+
+## Download (deprecated)
 In Releases. Only available as GitHub Actions artifact due to release upload limit.
 
 ## Install
